@@ -23,7 +23,7 @@ public class MathR{
         double Y = pointPosition.y - cameraPosition.y;
         double Z = pointPosition.z - cameraPosition.z;
         double x, y, z, _x, _y;
-        Point3D<Double> surfacePos = new Point3D<Double>(1.0, 0.0, 0.0);
+        Point3D<Integer> surfacePos = new Point3D<Integer>(1, 1, 1);
         x = Cos(rot.y) * (Sin(rot.z) * Y + Cos(rot.z) * X) - Sin(rot.y) * Z;
         y = Sin(rot.x) * (Cos(rot.y) * Z + Sin(rot.y) * (Sin(rot.z) * Y + Cos(rot.z) * X)) + Cos(rot.x) * (Cos(rot.z) * Y - Sin(rot.z) * X);
         z = Cos(rot.x) * (Cos(rot.y) * Z + Sin(rot.y) * (Sin(rot.z) * Y + Cos(rot.z) * X)) - Sin(rot.x) * (Cos(rot.z) * Y - Sin(rot.z) * X);

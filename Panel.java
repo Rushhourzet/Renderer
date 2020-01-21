@@ -18,14 +18,9 @@ public class Panel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g){
-        Polygon poly = new Polygon(
-                new int[]{50, 100, 0},
-                new int[]{0, 100, 100},
-                3);
         super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g.create();
             g2d.setColor(Color.RED);
             g2d.fill(poly);
-            g2d.dispose();
     }
 }
