@@ -3,8 +3,16 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class Panel extends JPanel {
+    Polygon poly;
+
     public void DrawLine(Graphics g, Point2D<Integer> p1, Point2D<Integer> p2){
         g.drawLine(p1.x, p1.y, p2.x, p2.y);
+    }
+    public void SetTestPoly(Point2D<Integer> p1, Point2D<Integer> p2, Point2D<Integer> p3){
+        poly = new Polygon(
+            new int[]{p1.x, p2.x, p3.x},
+            new int[]{p1.y, p2.y, p3.y},
+            3);
     }
 
 

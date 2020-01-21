@@ -10,4 +10,10 @@ public class Point3D<T>{
         this.y = y;
         this.z = z;
     }
+    public static Point3D<Integer> NULL_INT(){
+        return new Point3D<Integer>(0,0,0);
+    }
+    public static Point3D<Double> NULL_DOUBLE(){
+        return new Point3D<Double>(0.0,0.0,0.0);
+    }
 }
