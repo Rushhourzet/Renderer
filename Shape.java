@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Shape {
     ArrayList<Point3D<Double>> points;
     ArrayList<Line> lines;
-    ArrayList<Triangle> faces;
+    ArrayList<Face> faces;
     public Shape(){
         points = new ArrayList<>();
         lines = new ArrayList<>();

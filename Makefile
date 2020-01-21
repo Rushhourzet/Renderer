@@ -13,6 +13,8 @@ CLASSES = \
 		Point3D.java \
 		Renderer.java \
 		Shape.java \
+		Frame.java \
+		Panel.java \
 		Face.java
 
 default: classes

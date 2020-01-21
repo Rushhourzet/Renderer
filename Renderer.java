@@ -19,6 +19,7 @@ public class Renderer{
         points.add(new Point3D<Integer>(0,0));
         points.add(new Point3D<Integer>(10,0));
         points.add(new Point3D<Integer>(5,5));
+
     }
     public void Refresh(){
         RefreshPoints();
@@ -30,9 +31,13 @@ public class Renderer{
         //close JFrame
     }
 
+    public void TransformObject(){
+
+    }
+
     public void RefreshPoints(){
-        for (Point3D<Integer> p : points) {
-            Camera tmp = new Camera(p);
+        for (final Point3D<Integer> p : points) {
+            final Camera tmp = new Camera(p);
             // Recalculate matrix for p
             // Apply recalculation to List of Points to render
         }
