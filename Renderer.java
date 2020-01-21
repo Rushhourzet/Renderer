@@ -1,13 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Renderer{
+public class Renderer implements KeyListener{
     ArrayList<Point3D<Integer>> points;
     Panel panel;
     Vector3<Double> rotation;
     boolean running;
     JFrame frame;
+    Point3D<Integer> cameraPos;
 
     public Renderer(){
         panel = new Panel();
@@ -16,65 +19,121 @@ public class Renderer{
 
     public void Run(){
         Init();
-        Refresh();
-        //if end condition met =>
+        while(running == true){
+            Refresh();
+        }
         End();
     }
 
     public void Init(){
-        points.add(new Point3D<Integer>(100 , 1, 50));
-        points.add(new Point3D<Integer>(1 , 100, 20));
-        points.add(new Point3D<Integer>(200 , 100, 1));
+        points.add(new Point3D<Integer>(200 , 300, 100));
+        points.add(new Point3D<Integer>(100 , 100, 100));
+        points.add(new Point3D<Integer>(300 , 100, 100));
 
-        DrawFrame(new Vector2<Integer>(600, 400));
+        DrawFrame();
 
-        rotation = new Vector3<Double>(Math.toRadians(5.0),1.0,1.0);
+        rotation = new Vector3<Double>(0.0,0.0,0.0);
+        cameraPos = new Point3D<Integer>(0,0,0);
 
         running = true;
-
     }
     public void Refresh(){
+        long lastTime = System.nanoTime();
+        long timer = System.currentTimeMillis();
+        final int fps = 144;
+        final double ns = 1000000000.0 / fps;
+        double delta = 0;
+        int frames = 0;
+
         while (running == true){
-            RefreshPoints(points.get(0), points.get(1), points.get(2), rotation);
-            panel.revalidate();
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+            while(delta >= 1){
+                /*
+                points.get(0).x += 0;
+                points.get(1).x += 0;
+                points.get(2).x += 0;
+
+                points.get(0).y += 0;
+                points.get(1).y += 0;
+                points.get(2).y += 0;
+
+                points.get(0).z += 0;
+                points.get(1).z += 0;
+                points.get(2).z += 0;
+                */
+                RefreshPoints(points.get(0), points.get(1), points.get(2), rotation);
+                delta--;   
+            }
+            //panel.revalidate();
             panel.repaint();          
-            frame.revalidate();
-            frame.repaint();       
+            //frame.revalidate();
+            frame.repaint();    
         }
     }
-    public void End(){
-        //end program on hotkey
-        //close JFrame
-    }
+    public void End(){}
 
-    public void TransformObject(){
-
-    }
-    public void DrawFrame(Vector2<Integer> frameSize){
+    public void DrawFrame(){
         frame = new JFrame("Renderermath Test");
-        frame.setSize(frameSize.x,frameSize.y);
+        frame.addKeyListener(this);
+        Dimension size = new Dimension(800,600);
+        frame.setPreferredSize(size);
+        frame.setResizable(false);
         frame.setLayout(new BorderLayout());
         frame.add(panel);
         frame.pack();
         frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }    
 
+    @Override
+    public void keyPressed(KeyEvent e){
+        int keyCode = e.getKeyCode();
+        switch( keyCode ) { 
+            case KeyEvent.VK_UP:                
+                rotation.z -= Math.toRadians(1.0);
+                break;
+            case KeyEvent.VK_DOWN:
+                rotation.z += Math.toRadians(1.0);
+                break;
+            case KeyEvent.VK_LEFT:
+                rotation.y -= Math.toRadians(1.0);
+                break;
+            case KeyEvent.VK_RIGHT :
+                rotation.y += Math.toRadians(1.0);
+                break;
+            case KeyEvent.VK_W :
+                cameraPos.z += 5;
+                break;
+            case KeyEvent.VK_S :
+                cameraPos.z -= 5;
+                break;
+            case KeyEvent.VK_A :
+                cameraPos.x += 5;
+                break;
+            case KeyEvent.VK_D :
+                cameraPos.x -= 5;
+                break;
+            case KeyEvent.VK_ESCAPE :
+                running = false;
+                break;
+        }
+    }
+    @Override
+    public void keyTyped(KeyEvent e){}
+    @Override
+    public void keyReleased(KeyEvent e){}
+
+    
+
+    
+
     public void RefreshPoints(Point3D<Integer> p1, Point3D<Integer> p2, Point3D<Integer> p3, Vector3<Double> rotation){
-        Point3D<Integer> cameraPos = new Point3D<Integer>(100,100,100);
-        Point2D<Integer> _p1 = new Point2D<Integer>(p1.x,p1.y); //MathR.Project3Dto2DInteger(p1, cameraPos, rotation);
-        Point2D<Integer> _p2 = new Point2D<Integer>(p2.x,p2.y); //MathR.Project3Dto2DInteger(p2, cameraPos, rotation);
-        Point2D<Integer> _p3 = new Point2D<Integer>(p3.x,p3.y); //MathR.Project3Dto2DInteger(p3, cameraPos, rotation);
+        Point2D<Integer> _p1 = MathR.Project3Dto2DInteger(cameraPos, p1, rotation);// new Point2D<Integer>(p1.x,p1.y); //
+        Point2D<Integer> _p2 = MathR.Project3Dto2DInteger(cameraPos, p2, rotation);// new Point2D<Integer>(p2.x,p2.y); //
+        Point2D<Integer> _p3 = MathR.Project3Dto2DInteger(cameraPos, p3, rotation);// new Point2D<Integer>(p3.x,p3.y); //
         panel.SetTestPoly(_p1, _p2, _p3);
-    }
-
-    public void DrawEdges(){
-        //Draw line for every defined edge from the predefined Points
-    }
-
-    public void Fill(){
-        //Fill the defined spaces in between edges
-        //Only render facing side
-        //Only render areas that are noth covered up by other areas
     }
 }

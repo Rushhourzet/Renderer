@@ -23,12 +23,14 @@ public class MathR{
         double Y = pointPosition.y - cameraPosition.y;
         double Z = pointPosition.z - cameraPosition.z;
         double x, y, z, _x, _y;
-        Point3D<Integer> surfacePos = new Point3D<Integer>(1, 1, 1);
+        Point3D<Integer> surfacePos = new Point3D<Integer>(0, 0, 200);
         x = Cos(rot.y) * (Sin(rot.z) * Y + Cos(rot.z) * X) - Sin(rot.y) * Z;
         y = Sin(rot.x) * (Cos(rot.y) * Z + Sin(rot.y) * (Sin(rot.z) * Y + Cos(rot.z) * X)) + Cos(rot.x) * (Cos(rot.z) * Y - Sin(rot.z) * X);
         z = Cos(rot.x) * (Cos(rot.y) * Z + Sin(rot.y) * (Sin(rot.z) * Y + Cos(rot.z) * X)) - Sin(rot.x) * (Cos(rot.z) * Y - Sin(rot.z) * X);
         _x = (surfacePos.z / z) * x + surfacePos.x;
         _y = (surfacePos.z / z) * y + surfacePos.y;
+        //System.out.println("X:" + X + ", x: " + x + ", _x: " + _x);
+        //System.out.println("Y:" + Y + ", y: " + y + ", _y: " + _y);
         return new Point2D<Integer>((int)_x,(int) _y);
     }
 }

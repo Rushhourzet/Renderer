@@ -5,16 +5,12 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	Camera.java \
-    Line.java \
     Main.java \
     MathR.java \
 	Point2D.java \
 	Point3D.java \
 	Renderer.java \
-	Shape.java \
 	Panel.java \
-	Face.java \
 	Vector3.java \
 	Vector2.java
 
