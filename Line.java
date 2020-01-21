@@ -1,7 +1,7 @@
 public class Line{
-    public Point3D pointA, pointB;
+    public Point3D<Integer> pointA, pointB;
     private double length;
-    public Line(Point3D pointA, Point3D pointB){
+    public Line(Point3D<Integer> pointA, Point3D<Integer> pointB){
         this.pointA = pointA;
         this.pointB = pointB;
     }
