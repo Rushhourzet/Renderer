@@ -1,30 +1,58 @@
+import java.util.Scanner;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Renderer implements KeyListener{
     ArrayList<Point3D<Integer>> points;
+    ArrayList<User> users;
     Panel panel;
     Vector3<Double> rotation;
-    boolean running;
+    boolean running, verifiedUser;
     JFrame frame;
     Point3D<Integer> cameraPos;
 
     public Renderer(){
         panel = new Panel();
         points = new ArrayList<>();
+        users = new ArrayList<>();
     }
 
     public void Run(){
-        Init();
-        while(running == true){
-            Refresh();
+        verifiedUser = false;
+        InitUsers();
+        verifiedUser = Login();
+        if(verifiedUser == true){
+            Init();
+            while(running == true){
+                Refresh();
+            }
         }
         End();
     }
-
+    public void InitUsers(){
+        users.add(new User("Sascha", "123"));
+        users.add(new User("Landerer", "456"));
+        users.add(new User("Marcel", "789"));
+    }
+    public boolean Login(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your loginName: ");
+        String loginName = scan.nextLine();
+        System.out.println("Please enter your password: ");
+        String password = scan.nextLine();
+        for (User u : users) {
+            if(u.getName().equals(loginName)){
+                if(u.getPassword().equals(password)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public void Init(){
         points.add(new Point3D<Integer>(200 , 300, 100));
         points.add(new Point3D<Integer>(100 , 100, 100));
@@ -124,16 +152,22 @@ public class Renderer implements KeyListener{
     @Override
     public void keyTyped(KeyEvent e){}
     @Override
-    public void keyReleased(KeyEvent e){}
-
-    
-
-    
+    public void keyReleased(KeyEvent e){}    
 
     public void RefreshPoints(Point3D<Integer> p1, Point3D<Integer> p2, Point3D<Integer> p3, Vector3<Double> rotation){
         Point2D<Integer> _p1 = MathR.Project3Dto2DInteger(cameraPos, p1, rotation);// new Point2D<Integer>(p1.x,p1.y); //
         Point2D<Integer> _p2 = MathR.Project3Dto2DInteger(cameraPos, p2, rotation);// new Point2D<Integer>(p2.x,p2.y); //
         Point2D<Integer> _p3 = MathR.Project3Dto2DInteger(cameraPos, p3, rotation);// new Point2D<Integer>(p3.x,p3.y); //
         panel.SetTestPoly(_p1, _p2, _p3);
+    }
+
+    public void DeleteUsersByName(String Name){
+        Iterator<User> it = users.iterator();
+        while(it.hasNext()){
+            User u = it.next();
+            if(u.getName().equals(Name)){
+                it.remove();
+            }
+        }
     }
 }
