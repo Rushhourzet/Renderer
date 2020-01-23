@@ -51,6 +51,7 @@ public class Renderer implements KeyListener{
                 }
             }
         }
+        System.out.println("Please enter a valid user name and/or password!");
         return false;
     }
     public void Init(){
